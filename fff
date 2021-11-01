@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+#into ~/.bashrc
+#alias fff='[ -f fff ] && /usr/bin/env bash fff'
+
+if ! docker info >/dev/null 2>&1; then
+  echo -e "Docker is not running." >&2
+  exit 1
+fi
+
+if ! [ -x "$(command -v docker-compose)" ]; then
+  shopt -s expand_aliases
+  alias docker-compose='docker compose'
+fi
+
+if [ $# -gt 0 ]; then
+  if [ -f ./.env ]; then
+    source ./.env
+  fi
+
+  export USER_ID=${USER_ID:-$(id -u)}
+  export GROUP_ID=${GROUP_ID:-$(id -g)}
+
+  if [ "$1" == "prod" ]; then
+    shift 1
+    COMPOSE="docker-compose -f docker-compose.yml -f docker-compose.prod.yml"
+  else
+    COMPOSE="docker-compose"
+  fi
+
+  if [ -n "$($COMPOSE ps -q)" ]; then
+    RUN="true"
+  else
+    RUN="false"
+  fi
+
+  function is_not_running() {
+    echo -e "Not running." >&2
+    exit 1
+  }
+
+  if [ "$1" == "sh" ]; then
+    shift 1
+    if [ "$RUN" == "true" ]; then
+      $COMPOSE run nodejs sh "$@"
+    else
+      sail_is_not_running
+    fi
+
+  else
+    $COMPOSE $@
+  fi
+else
+  docker-compose ps
+fi
