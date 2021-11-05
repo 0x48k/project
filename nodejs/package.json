@@ -12,8 +12,11 @@
   "packageManager": "yarn@3.1.0",
   "devDependencies": {
     "@babel/core": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
+    "@babel/register": "^7.16.0",
+    "@babel/runtime": "^7.16.0",
     "babel-loader": "^8.2.3",
     "html-webpack-plugin": "^5.5.0",
     "webpack": "^5.61.0",
@@ -21,8 +24,10 @@
     "webpack-dev-server": "^4.4.0"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.0.0"
   }
 }
