@@ -1,4 +1,4 @@
-FROM nginx:1.21.3-alpine as dev
+FROM nginx:1.21.4-alpine as dev
 
 RUN rm /etc/nginx/conf.d/default.conf \
     && apk add --no-cache openssl
